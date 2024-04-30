@@ -1,0 +1,105 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+\usepackage{parskip}
+\usepackage{forest}
+\usepackage{tikz}
+\usepackage{stmaryrd}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{alphalph}
+\usepackage{cancel}
+\usepackage{textgreek}
+\usepackage{titlesec}
+\usepackage{dsfont}
+\usepackage{caption}
+\usepackage{cancel}
+
+\geometry{top=4cm, bottom=4cm, left=4cm, right=4cm}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Pierre Pili $\cdot$ Marie Gardie $\cdot$ Isée Biglietti}
+\lhead{Econometrics 3}
+\cfoot{\thepage}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+
+\titleformat{\section}{\small\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\small\bfseries}{\thesubsection}{1em}{}
+
+\renewcommand{\thesubsection}{(\alph{subsection})}
+\renewcommand{\thesection}{\arabic{section}}
+
+\title{Econometrics 3 - Problem Set 10}
+\author{PILI Pierre $\cdot$ GARDIE Marie $\cdot$ BIGLIETTI Isée}
+\date{\today}
+
+
+
+\begin{document}
+\maketitle
+
+\section{Two-child policy}
+\subsection{What are (some) unobserved determinants of fecundity?}
+Fecundity is surely the result of complex interactions between numerous unobservables among which :
+\begin{itemize}
+    \item Genetic Factors: Certain genetic predispositions may influence fertility.
+    
+    \item Health and Lifestyle: Overall health, diet, exercise, and exposure to toxins can impact fertility.
+    
+    \item Psychological and Emotional Factors: Stress, mental health disorders, and trauma can affect reproductive health.
+    
+    \item Access to Healthcare: Disparities in access to reproductive healthcare services can influence fertility rates.
+    
+    \item Socioeconomic Status: Economic stability and financial resources can shape fertility decisions.
+    
+    \item Cultural and Social Norms: Cultural beliefs and societal expectations impact attitudes towards family size.
+    
+    \item Relationship Dynamics: Quality of relationships and support from partners influence fertility decisions.
+    
+    \item Environmental Factors: Exposure to pollutants and climate conditions may affect fertility rates.
+
+    \item Sex Preferences for Children: Various papers discussed the impact of gender preferences of the probability to have a second child.
+    
+    \item Biological Clock and Age: Women's fertility declines with age due to biological factors.
+\end{itemize}
+
+\subsection{Assuming IIA, write down a statistical model (conditional choice probabilities) of women’s fecundity allowing for alternative specific intercepts.}
+
+In the context of the multinomial logit model with the assumption of Independence of Irrelevant Alternatives (IIA), the conditional choice probabilities of women's fecundity, considering explanatory variables such as marital status and education, can be represented using alternative-specific intercepts. Let $V_{j}$ denote the utility that an individual gets under alternative $j$. $V_j$ is defined in our model as
+$$V_j = \alpha_j + X\beta_j$$
+where we allow for alternative specific intercepts $\alpha_j$. $X$ are the alternative invariant factors, marital status and education.
+The probability of choosing alternative $j$ writes
+$$\mathbb{P}(y = j|X) = \frac{\exp(V_j)}{\sum_k \exp(V_k)}$$
+As there are no alternative-varying factors, this model is called a "Mulitnomial Logit".
+\subsection{Is the IIA assumption plausible? Explain.}
+The IIA is a strong assumption stating that the relative probabilities of two alternatives are the same whatever the other alternatives are and how they are valued. Consider alternative of having $1$ or $2$ children and assume there is no other alternative. The IIA implies that adding a new alternative such as having 3 children for instance would not change the relative probabilities for alternatives $1$ and $2$ which is very strange. It means that the same proportion of people in group $1$ and $2$ are switching to group $3$ even though it seems reasonable to think that people who preferred one child to two would not prefer having three once it is possible while people from group $2$ could choose group $3$ as they wanted many children in the first place but were limited by the initial set of options. Put otherwise, as the alternatives are naturally ordered it is very unlikely that the error terms are independent as the unobservable surely explain part of them all in a similar fashion.
+\subsection{Write down an alternative statistical model (conditional choice probabilities) exploiting the natural ordering of the choices. Are the underlying assumptions likely to be satisfied?}
+In the context of naturally ordered alternative one can use an ordered probit model based on a linear latent model writing
+\[
+\begin{cases}
+y^* &= X\beta + \varepsilon \\
+y &= j \in \{0, 1, 2\} \quad  \text{iff} \quad \alpha_{j-1} < y^* \leq \alpha_j
+\end{cases}
+\]
+where the dependent variable $y$ is set based on the interval in which is found $y^*$.
+\stepcounter{section}
+\section{Fishing mode choice - multinomial logit}
+\subsection{Estimate a Conditional Logit, i.e., reproduce the equivalent of column 1 of the table on page 19 in the slides. Report your results.}
+All results are displayed in the same table (see Table \ref{reg}).
+\stepcounter{subsection}
+\subsection{Perform a Hausman test using a subset/logit model of your choice. What do you find?}
+The test rejects the null hypothesis at the 1\% level as the number obtained from a $\chi^2(2)$ distribution (26.823) is above the rejection bound. The IIA is therefore rejected.
+\subsection{Estimate a Multinomial Logit, i.e., reproduce the equivalent of column 2 of the table on page 19 in the slides. Based on the estimation output, what can you say (qualitatively) about the partial effect of income?}
+Even though the coefficients obtained are not partial effects, they still informs us about the sign of the effect and their relative magnitudes. We see that (see Table \ref{reg}) income has a positive effect on the probability to use a private boeat while it has a negative effect on the probability to use a pier. The effect on the probability to use a charter is not significantly different from zero however.
+\subsection{Estimate a Mixed Multinomial Logit, i.e., reproduce the equivalent of column 3 of the table on page 19 in the slides. Report your results.}
+All results are displayed in the same table (see Table \ref{reg}).
+\input{OUTPUT/regressions.tex}
+\end{document}
